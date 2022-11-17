@@ -1,8 +1,10 @@
 class State:
-    def __init__(self, s:str):
+    def __init__(self, s:str, id: int):
+        self.id = id
         self.s = s
         self.children = set()
-        player = 'X' if (self.s.count(' ') % 2) == 0 else 'O'
+        turn = 9 - self.s.count(' ')
+        player = 'X' if (turn % 2) == 0 else 'O'
         if (       self.s[0:3] == player*3
                 or self.s[3:6] == player*3
                 or self.s[6:9] == player*3

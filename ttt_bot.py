@@ -2,15 +2,17 @@ from ttt_state import State
 import random
 
 class Bot:
-    def __init__(self, head: State, expl_rate = 0.5):
-        self.d = {}
+    def __init__(self, head: State, d: dict = None, expl_rate = 0.5):
         self.prev = {}
         self.prev['X'] = None
         self.prev['O'] = None
         self.alfa = 0.1
         self.expl_rate = expl_rate
-
-        self._init_weights(head)
+        if d is None:
+            self.d = {head:0.5}
+            self._init_weights(head)
+        else:
+            self.d = d
 
     
     def _init_weights(self, st: State):
@@ -45,19 +47,6 @@ class Bot:
             self.d[self.prev['O']] = (1 - self.alfa) * self.d[self.prev['O']] + 0.5*self.alfa
         self.prev['X'] = None
         self.prev['O'] = None
-
-    def save_state(self, file = 'svst.pt'):
-        with open(file,'w') as f:
-            for k in self.d:
-                f.write('{}:{}\n'.format(k.s,self.d[k]))
-    
-    def load_state(self, file = 'svst.pt'):
-        try:
-            with open(file,'r') as f:
-                for line in f.readlines:
-                    pass
-        except FileNotFoundError:
-            print('File {} not found'.format(file))
 
         
         
