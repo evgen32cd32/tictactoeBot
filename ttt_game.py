@@ -41,13 +41,13 @@ def _recursive_save(st: State, b: Bot, saved: set, f):
         for sc in st.children:
             _recursive_save(sc,b,saved,f)
 
-def save_game(st: State, b: Bot, file = 'svst.pt'):
+def save_game(st: State, b: Bot, file = 'configs/svst.csv'):
     with open(file,'w') as f:
         saved = set()
         _recursive_save(st,b,saved,f)
 
 
-def load_game(file = 'svst.pt'):
+def load_game(file = 'configs/svst.csv'):
     head = None
     b = None
     d = {}
@@ -69,6 +69,7 @@ def load_game(file = 'svst.pt'):
     for _, (st, ch_ar) in d.items():
         for sc_id in ch_ar:
             st.children.add(d[sc_id][0])
+    print("Loaded successfully")
     return (head, b)
 
 if __name__ == '__main__':
