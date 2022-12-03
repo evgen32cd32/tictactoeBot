@@ -1,0 +1,23 @@
+<html>
+    <head>
+    <title>Flask Tutorial</title>
+    </head>
+
+
+    <body>
+        <h1>This is the Index page</h1>
+        <table>
+            {%for row in grid%}
+            <tr>
+                {%for item in row%}
+                <td>
+                    <form action="/action" method="post">
+                        <input type="submit" name="hi" value="{{item}}" />
+                    </form>
+                </td>
+                {%endfor%}
+            </tr>
+            {%endfor%}
+        </table>
+    </body>
+</html>  
