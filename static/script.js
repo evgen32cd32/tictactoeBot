@@ -30,14 +30,14 @@ window.onload = function() {
         var xhr = new XMLHttpRequest();
         xhr.open("POST", '/action', true);
         xhr.getResponseHeader("Content-type", "application/json");
+        xhr.setRequestHeader("Content-type", "application/json");
 
         xhr.onload = function() {
             const obj = JSON.parse(this.responseText);
             console.log(obj);
             //reloadField(obj);
         }
-
-        xhr.send("{}");
+        xhr.send('{"document":"hi"}');
     }
 
     start();

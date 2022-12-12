@@ -20,7 +20,7 @@ def home():
 
 @app.route('/action', methods={"POST"})
 def player_action():
-    print(request.form)
+    print(request.get_json())
     return '{"OK":"OK"}'
 
 @app.route('/{}'.format(secret), methods=["POST"])
