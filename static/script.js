@@ -3,27 +3,27 @@ window.onload = function() {
     var gameId;
 
     function reloadField(obj) {
-        gameId = obj.gameId;
+        //gameId = obj.gameId;
 
-        score.innerText = obj.totalScore;
-        turn.innerText = obj.turnNumber;
+        //score.innerText = obj.totalScore;
+        //turn.innerText = obj.turnNumber;
 
         Array.from(cells).forEach((cell, index) => {
-            const x = Math.floor(index / 4);
-            const y = index % 4;
+            const x = Math.floor(index / 3);
+            const y = index % 3;
 
-            const val = obj.gameField[x][y];
-            cell.innerText = val == 0 ? '' : val;
-            cell.style.background = getColoring(val);
-            resizeToFit(cell);
+            //const val = obj.gameField[x][y];
+            cell.innerText = 'X'//val == 0 ? '' : val;
+            //cell.style.background = getColoring(val);
+            //resizeToFit(cell);
         });
 
-        if (obj.gameOver == true) {
-            document.getElementById("over").style.display = 'inline';
-            document.onkeydown = function(e) { }
-            field.addEventListener('touchstart', e => {});
-            field.addEventListener('touchend', e => {});
-        }
+        //if (obj.gameOver == true) {
+        //    document.getElementById("over").style.display = 'inline';
+        //    document.onkeydown = function(e) { }
+        //    field.addEventListener('touchstart', e => {});
+        //    field.addEventListener('touchend', e => {});
+        //}
     }
 
     function start() {
