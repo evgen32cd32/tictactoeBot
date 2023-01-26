@@ -65,8 +65,8 @@ def load_game(file = 'configs/svst.csv'):
                 ar = []
             d[id] = (st,[int(x) for x in ar])
             bot_d[st] = float(split[2])
-            if bot_d[st] != 0.5 and bot_d[st] != 1.0:
-                print(line)
+            #if bot_d[st] != 0.5 and bot_d[st] != 1.0:
+            #    print(line)
     head = d[0][0]
     b = Bot(head,bot_d)
     for _, (st, ch_ar) in d.items():

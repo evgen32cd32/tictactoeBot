@@ -16,7 +16,7 @@ secret = cfg['SECRET']
 
 @app.route('/')
 def home():
-   return render_template('index.html',grid = [['X','O'],['Y'],['N']])
+   return render_template('index.html')
 
 @app.route('/action', methods={"POST"})
 def player_action():

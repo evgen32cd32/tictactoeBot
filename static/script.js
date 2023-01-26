@@ -13,7 +13,7 @@ window.onload = function() {
             const y = index % 3;
 
             //const val = obj.gameField[x][y];
-            cell.innerText = 'X'//val == 0 ? '' : val;
+            cell.innerText = ' '//val == 0 ? '' : val;
             //cell.style.background = getColoring(val);
             //resizeToFit(cell);
         });
