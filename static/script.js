@@ -35,7 +35,7 @@ window.onload = function() {
         xhr.onload = function() {
             const obj = JSON.parse(this.responseText);
             console.log(obj);
-            //reloadField(obj);
+            reloadField(obj);
         }
         xhr.send('{"document":"hi"}');
     }

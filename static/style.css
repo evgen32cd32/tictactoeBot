@@ -1,0 +1,97 @@
+html, body {
+    height: 100%;
+}
+body {
+    text-align: center;
+    font-family: Arial Narrow, sans-serif;
+    overflow: hidden; /* to disable mobile scroll on swipe*/
+}
+.container {
+    width: 100%;
+}
+#info {
+    margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    font-size: 16px;
+}
+#info-score {
+    text-align: left;
+}
+#info-turn {
+    text-align: right;
+}
+#over {
+    display: none;
+    color: red;
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+#field {
+    width: 90vmin;
+    height: 90vmin;
+    margin: auto;
+    font-size: 0px;
+    display: grid;
+    grid-template-columns: repeat(3, calc(33% - 0.75px));
+    grid-template-rows: repeat(3, calc(33% - 0.75px));
+    grid-gap: 1px;
+    font-size: 60px;
+}
+.row {
+    padding: 2px;
+}
+.cell {
+    background: #ffffff;
+    text-align: center;
+    border: 1px solid black;
+    vertical-align: middle;
+    display: inline-flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}
+
+@media only screen and (orientation: landscape) {
+    #info {
+        margin-bottom: 10px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        font-size: 20px;
+    }
+    #field {
+        width: 50vmin;
+        height: 50vmin;
+        margin: auto;
+        font-size: 0px;
+        display: grid;
+        grid-template-columns: repeat(3, calc(33% - 0.75px));
+        grid-template-rows: repeat(3, calc(33% - 0.75px));
+        grid-gap: 1px;
+        font-size: 35px;
+    }
+}
+
+@media only screen and (min-width:992px) {
+    .container {
+        width: 50vh;
+        margin: auto;
+    }
+    #info {
+        margin-bottom: 10px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        font-size: 25px;
+    }
+    #field {
+        width: 50vmin;
+        height: 50vmin;
+        margin: auto;
+        font-size: 0px;
+        display: grid;
+        grid-template-columns: repeat(3, calc(33% - 0.75px));
+        grid-template-rows: repeat(3, calc(33% - 0.75px));
+        grid-gap: 1px;
+        font-size: 80px;
+    }
+}

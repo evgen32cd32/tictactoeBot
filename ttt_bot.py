@@ -30,7 +30,7 @@ class Bot:
             if max_v <= self.d[sc]:
                 max_v = self.d[sc]
                 max_ac = sc
-        if self.expl_rate <= random.uniform(0,1):
+        if self.expl_rate >= random.uniform(0,1):
             self.prev[player] = random.choice(list(st.children))
         else:
             if self.prev[player] is not None:

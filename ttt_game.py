@@ -48,6 +48,7 @@ def save_game(st: State, b: Bot, file = 'configs/svst.csv'):
 
 
 def load_game(file = 'configs/svst.csv'):
+    #assert()
     head = None
     b = None
     d = {}
@@ -64,6 +65,8 @@ def load_game(file = 'configs/svst.csv'):
                 ar = []
             d[id] = (st,[int(x) for x in ar])
             bot_d[st] = float(split[2])
+            if bot_d[st] != 0.5 and bot_d[st] != 1.0:
+                print(line)
     head = d[0][0]
     b = Bot(head,bot_d)
     for _, (st, ch_ar) in d.items():
@@ -78,7 +81,7 @@ if __name__ == '__main__':
     except Exception:
         print("Can't load. New initialization")
         start = init_states()
-        b = Bot(start,0)
+        b = Bot(start,expl_rate=0.5)
     ca = start
     plf = True
     while ca.winner is None:
