@@ -14,15 +14,15 @@ token = cfg['TOKEN']
 secret = cfg['SECRET']
 domain = cfg['DOMAIN']
 
-#bot = telepot.Bot(token)
-#bot.setWebhook("{}/{}".format(domain,secret), max_connections=1)
+bot = telepot.Bot(token)
+bot.setWebhook("{}/{}".format(domain,secret), max_connections=1)
 
 try:
-    (start,bot) = game.load_game()
+    (start,botG) = game.load_game()
 except Exception:
     print("Can't load. New initialization")
     start = game.init_states()
-    bot = game.Bot(start,expl_rate=0.5)
+    botG = game.Bot(start,expl_rate=0.5)
 
 gamesDict = {}
 
@@ -45,7 +45,7 @@ def player_action():
     for child in gamesDict[d['gameId']].children:
         if child.s == d['field']:
             if child.winner is None:
-                ns = bot.action(child)
+                ns = botG.action(child)
                 gamesDict[d['gameId']] = ns
                 if ns.winner is not None:
                     d['end'] = True
@@ -64,9 +64,9 @@ def telegram_webhook():
     if "message" in update:
         text = update["message"]["text"]
         chat_id = update["message"]["chat"]["id"]
-        #bot.sendMessage(chat_id, "From the web: you said '{}'".format(text),reply_markup=ReplyKeyboardMarkup(
-        #    keyboard=[[KeyboardButton(text='Yes'),KeyboardButton(text='No')],
-        #    [KeyboardButton(text='Left'),KeyboardButton(text='Right')]]))
+        bot.sendMessage(chat_id, "From the web: you said '{}'".format(text),reply_markup=ReplyKeyboardMarkup(
+            keyboard=[[KeyboardButton(text='Yes'),KeyboardButton(text='No')],
+            [KeyboardButton(text='Left'),KeyboardButton(text='Right')]]))
     return "OK"
 
 
