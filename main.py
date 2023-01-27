@@ -14,8 +14,7 @@ token = cfg['TOKEN']
 secret = cfg['SECRET']
 domain = cfg['DOMAIN']
 
-bot = telepot.Bot(token)
-bot.setWebhook("{}/{}".format(domain,secret), max_connections=1)
+bot = None
 
 try:
     (start,botG) = game.load_game()
@@ -72,3 +71,6 @@ def telegram_webhook():
 
 if __name__ == '__main__':
    app.run(debug=True)
+else:
+    bot = telepot.Bot(token)
+    bot.setWebhook("{}/{}".format(domain,secret), max_connections=1)
