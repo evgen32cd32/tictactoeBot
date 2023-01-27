@@ -2,6 +2,8 @@ from flask import Flask, request, render_template
 import telepot
 from telepot.namedtuple import ReplyKeyboardMarkup, KeyboardButton
 import json
+import ttt_game as game
+import uuid
 
 app = Flask(__name__)
 
@@ -10,9 +12,19 @@ with open('configs/env.json','r') as f:
 
 token = cfg['TOKEN']
 secret = cfg['SECRET']
+domain = cfg['DOMAIN']
 
 #bot = telepot.Bot(token)
-#bot.setWebhook("https://f4q73p.deta.dev/{}".format(secret), max_connections=1)
+#bot.setWebhook("{}/{}".format(domain,secret), max_connections=1)
+
+try:
+    (start,bot) = game.load_game()
+except Exception:
+    print("Can't load. New initialization")
+    start = game.init_states()
+    bot = game.Bot(start,expl_rate=0.5)
+
+gamesDict = {}
 
 @app.route('/')
 def home():
@@ -20,8 +32,31 @@ def home():
 
 @app.route('/action', methods={"POST"})
 def player_action():
-    print(request.get_json())
-    return '{"OK":"OK"}'
+    d = request.get_json()
+    resp = {}
+    if 'start' in d or d['gameId'] not in gamesDict:
+        gid = str(uuid.uuid4())
+        gamesDict[gid] = start
+        resp['field'] = start.s
+        resp['gameId'] = gid
+        resp['end'] = False
+        return resp
+    d['end'] = False
+    for child in gamesDict[d['gameId']].children:
+        if child.s == d['field']:
+            if child.winner is None:
+                ns = bot.action(child)
+                gamesDict[d['gameId']] = ns
+                if ns.winner is not None:
+                    d['end'] = True
+                    del gamesDict[d['gameId']]
+                d['field'] = ns.s
+            else:
+                d['end'] = True
+                del gamesDict[d['gameId']]
+            return d
+    d['field'] = gamesDict[d['gameId']].s
+    return d
 
 @app.route('/{}'.format(secret), methods=["POST"])
 def telegram_webhook():

@@ -1,29 +1,47 @@
 window.onload = function() {
-    const cells = document.getElementsByClassName("cell");
+    const cells = Array.from(document.getElementsByClassName("cell"));
+    const header = document.getElementById("header");
+    var field;
     var gameId;
 
     function reloadField(obj) {
-        //gameId = obj.gameId;
-
-        //score.innerText = obj.totalScore;
-        //turn.innerText = obj.turnNumber;
-
-        Array.from(cells).forEach((cell, index) => {
-            const x = Math.floor(index / 3);
-            const y = index % 3;
-
-            //const val = obj.gameField[x][y];
-            cell.innerText = ' '//val == 0 ? '' : val;
-            //cell.style.background = getColoring(val);
-            //resizeToFit(cell);
+        field = obj.field;
+        gameId = obj.gameId;
+        cells.forEach((cell, index) => {
+            cell.innerText = obj.field[index]
         });
+        if (obj.hasOwnProperty('end'))
+        {
+            header.innerText = 'Your move';
+        } else {
+            header.innerText = 'Waiting...';
+        }
+    }
 
-        //if (obj.gameOver == true) {
-        //    document.getElementById("over").style.display = 'inline';
-        //    document.onkeydown = function(e) { }
-        //    field.addEventListener('touchstart', e => {});
-        //    field.addEventListener('touchend', e => {});
-        //}
+    function action(index) {
+        if (cells[index].innerText != 'X' && cells[index].innerText != 'O') {
+            var player = 'O';
+            if (field.split(" ").length % 2 == 0) {
+                player = 'X'
+            }
+            field = field.substring(0,index) + player + field.substring(index+1);
+            res = {};
+            res.gameId = gameId;
+            res.field = field;
+            reloadField(res);
+            
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", '/action', true);
+            xhr.getResponseHeader("Content-type", "application/json");
+            xhr.setRequestHeader("Content-type", "application/json");
+
+            xhr.onload = function() {
+                const obj = JSON.parse(this.responseText);
+                reloadField(obj);
+            }
+            xhr.send(JSON.stringify(res));
+        }
     }
 
     function start() {
@@ -34,11 +52,16 @@ window.onload = function() {
 
         xhr.onload = function() {
             const obj = JSON.parse(this.responseText);
-            console.log(obj);
             reloadField(obj);
         }
-        xhr.send('{"document":"hi"}');
+        xhr.send('{"start":"OK"}');
     }
+
+    cells.forEach((cell, index) => {
+        cell.addEventListener('click', e => {
+            action(index);
+        });
+    });
 
     start();
 }
