@@ -1,26 +1,25 @@
-from ttt_state import State
+from ttt_state import State, stateCanonForm
 from ttt_bot import Bot
 
 def init_states():
     state_dict = {}
-    id = 0
-    state_dict[0] = {'         ':State('         ',id)}
+    state_dict[0] = {0:State('         ',0)}
     for i in range(1,10):
         state_dict[i] = {}
         p = 'O' if (i % 2) == 0 else 'X'
-        for s,st in state_dict[i-1].items():
+        for __,st in state_dict[i-1].items():
             if st.winner is None:
                 for j in range(9):
-                    if s[j] == ' ':
-                        ns = s[:j]+p+s[j+1:]
-                        if ns in state_dict[i]:
-                            st.children.add(state_dict[i][ns])
+                    if st.s[j] == ' ':
+                        ns = st.s[:j]+p+st.s[j+1:]
+                        score, cForm, _ = stateCanonForm(ns)
+                        if score in state_dict[i]:
+                            st.children.add(state_dict[i][score])
                         else:
-                            id = id + 1
-                            nst = State(ns, id)
-                            state_dict[i][ns] = nst
+                            nst = State(cForm, score)
+                            state_dict[i][score] = nst
                             st.children.add(nst)
-    return state_dict[0]['         ']
+    return state_dict[0][0]
 
 def get_user_action(st: State):
     c = ''
@@ -35,19 +34,19 @@ def get_user_action(st: State):
     return get_user_action(st)
 
 def _recursive_save(st: State, b: Bot, saved: set, f):
-    if st.id not in saved:
-        saved.add(st.id)
-        f.write('{};{};{};{}\n'.format(st.id,st.s,b.d[st],[sc.id for sc in st.children]))
+    if st.score not in saved:
+        saved.add(st.score)
+        f.write('{};{};{};{}\n'.format(st.score,st.s,b.d[st],[sc.score for sc in st.children]))
         for sc in st.children:
             _recursive_save(sc,b,saved,f)
 
-def save_game(st: State, b: Bot, file = 'configs/svst.csv'):
+def save_game(st: State, b: Bot, file = 'configs/svst_v2.csv'):
     with open(file,'w') as f:
         saved = set()
         _recursive_save(st,b,saved,f)
 
 
-def load_game(file = 'configs/svst.csv'):
+def load_game(file = 'configs/svst_v2.csv'):
     #assert()
     head = None
     b = None
