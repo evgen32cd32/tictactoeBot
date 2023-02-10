@@ -4,6 +4,7 @@ from telepot.namedtuple import ReplyKeyboardMarkup, KeyboardButton
 import json
 from ttt_game import TTTGame
 import uuid
+import os
 
 app = Flask(__name__)
 
@@ -12,7 +13,7 @@ with open('configs/env.json','r') as f:
 
 token = cfg['TOKEN']
 secret = cfg['SECRET']
-domain = cfg['DOMAIN']
+domain = f"https://{os.getenv('DETA_SPACE_APP_HOSTNAME')}/"
 
 bot = None
 
