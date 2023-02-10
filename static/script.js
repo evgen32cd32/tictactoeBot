@@ -3,6 +3,7 @@ window.onload = function() {
     const header = document.getElementById("header");
     var field;
     var gameId;
+    var gameover = false;
 
     function reloadField(obj) {
         field = obj.field;
@@ -10,11 +11,29 @@ window.onload = function() {
         cells.forEach((cell, index) => {
             cell.innerText = obj.field[index]
         });
-        if (obj.hasOwnProperty('end'))
+        switch(obj.status)
         {
-            header.innerText = 'Your move';
-        } else {
-            header.innerText = 'Waiting...';
+            case 'waiting':
+                header.innerText = 'Waiting...';
+                break;
+            case 'player_move':
+                header.innerText = 'Your move';
+                break;
+            case 'cheater':
+                header.innerText = 'Cheater!';
+                break;
+            case 'draw':
+                header.innerText = 'Draw';
+                gameover = true;
+                break;
+            case 'player_won':
+                header.innerText = 'You won!';
+                gameover = true;
+                break;
+            case 'bot_won':
+                header.innerText = 'You lost!';
+                gameover = true;
+                break;
         }
     }
 
@@ -28,6 +47,7 @@ window.onload = function() {
             res = {};
             res.gameId = gameId;
             res.field = field;
+            res.status = 'waiting'
             reloadField(res);
             
 
@@ -59,7 +79,10 @@ window.onload = function() {
 
     cells.forEach((cell, index) => {
         cell.addEventListener('click', e => {
-            action(index);
+            if (!gameover)
+            {
+                action(index);
+            }
         });
     });
 
