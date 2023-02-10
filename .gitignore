@@ -16,6 +16,7 @@ experiments/
 projects/
 papers/
 .deta
+.space
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -153,3 +154,5 @@ dmypy.json
 .idea/other.xml
 .idea/vcs.xml
 configs/
+
+.space
