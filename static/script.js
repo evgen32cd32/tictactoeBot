@@ -10,8 +10,9 @@ window.onload = function() {
         cells.forEach((cell, index) => {
             cell.innerText = obj.field[index]
         });
-        if (obj.hasOwnProperty('end'))
+        if (obj.hasOwnProperty('status'))
         {
+            console.log(obj.status)
             header.innerText = 'Your move';
         } else {
             header.innerText = 'Waiting...';
