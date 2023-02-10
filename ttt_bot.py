@@ -1,52 +1,40 @@
-from ttt_state import State
+from ttt_state import CanonState
 import random
 
 class Bot:
-    def __init__(self, head: State, d: dict = None, expl_rate = 0.5):
-        self.prev = {}
-        self.prev['X'] = None
-        self.prev['O'] = None
+    def __init__(self, states: dict, d: dict = None):
         self.alfa = 0.1
-        self.expl_rate = expl_rate
         if d is None:
-            self.d = {head:0.5}
-            self._init_weights(head)
+            self.d = {st:0.5 if st.winner is None or st.winner == 'D' else 1.0 for st in states.values()}
         else:
-            self.d = d
-
+            self.d = {states[k]:v for k,v in d.items()}
     
-    def _init_weights(self, st: State):
-        for sc in st.children:
-            if sc not in self.d:
-                self.d[sc] = 0.5 if sc.winner is None or sc.winner == 'D' else 1.0
-                self._init_weights(sc)
-    
-    def action(self, st:State):
+    def action(self, st: CanonState, prev_state: CanonState = None, expl_rate: float = 0.5):
         player = 'O' if (st.s.count(' ') % 2) == 0 else 'X'
-
-        max_v = 0
-        max_ac = None
-        for sc in st.children:
-            if max_v <= self.d[sc]:
-                max_v = self.d[sc]
-                max_ac = sc
-        if self.expl_rate >= random.uniform(0,1):
-            self.prev[player] = random.choice(list(st.children))
-        else:
-            if self.prev[player] is not None:
-                self.d[self.prev[player]] = self.d[self.prev[player]] + self.alfa * (self.d[max_ac]-self.d[self.prev[player]])
-            self.prev[player] = max_ac
-        return self.prev[player]
+        # exploration
+        if expl_rate < random.uniform(0,1):
+            nst = random.choice(list(st.children))
+            return nst, random.choice(st.children[nst])
+        max_v = max([self.d[sc] for sc in st.children])
+        max_ac = [sc for sc in st.children if self.d[sc] == max_v][0]
+        if prev_state is not None:
+            self.d[prev_state] += self.alfa * (self.d[max_ac] - self.d[prev_state])
+        return max_ac, random.choice(st.children[max_ac])
     
-    def get_winner(self, winner):
-        if winner == 'X' and self.prev['O'] is not None:
-            self.d[self.prev['O']] = (1 - self.alfa) * self.d[self.prev['O']]
-        elif winner == 'O' and self.prev['X'] is not None:
-            self.d[self.prev['X']] = (1 - self.alfa) * self.d[self.prev['X']]
-        elif winner == 'D' and self.prev['O'] is not None:
-            self.d[self.prev['O']] = (1 - self.alfa) * self.d[self.prev['O']] + 0.5*self.alfa
-        self.prev['X'] = None
-        self.prev['O'] = None
+    def get_winner(self, winner: str, prev_states: dict):
+        if winner == 'X' and prev_states['O'] is not None:
+            self.d[prev_states['O']] *= (1 - self.alfa)
+        if winner == 'O' and prev_states['X'] is not None:
+            self.d[prev_states['X']] *= (1 - self.alfa)
+        if winner == 'D' and prev_states['O'] is not None:
+            self.d[prev_states['O']] = (1 - self.alfa) * self.d[prev_states['O']] + 0.5*self.alfa
+    
+    # Only draw and lost
+    def get_defeat(self, winner: str, prev: CanonState):
+        if winner == 'D':
+            self.d[prev] = (1 - self.alfa) * self.d[prev] + 0.5*self.alfa
+        else:
+            self.d[prev] *= (1 - self.alfa)
 
         
         
