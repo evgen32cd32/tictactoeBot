@@ -13,10 +13,10 @@ class Bot:
         player = 'O' if (st.s.count(' ') % 2) == 0 else 'X'
         # exploration
         if expl_rate < random.uniform(0,1):
-            nst = random.choice(list(st.children.keys()))
+            nst = random.choice(list(st.children))
             return nst, random.choice(st.children[nst])
-        max_v = max([self.d[sc] for sc in st.children.keys()])
-        max_ac = [sc for sc in st.children.keys() if self.d[sc] == max_v][0]
+        max_v = max([self.d[sc] for sc in st.children])
+        max_ac = [sc for sc in st.children if self.d[sc] == max_v][0]
         if prev_state is not None:
             self.d[prev_state] += self.alfa * (self.d[max_ac] - self.d[prev_state])
         return max_ac, random.choice(st.children[max_ac])
@@ -28,6 +28,13 @@ class Bot:
             self.d[prev_states['X']] *= (1 - self.alfa)
         if winner == 'D' and prev_states['O'] is not None:
             self.d[prev_states['O']] = (1 - self.alfa) * self.d[prev_states['O']] + 0.5*self.alfa
+    
+    # Only draw and lost
+    def get_defeat(self, winner: str, prev: CanonState):
+        if winner == 'D':
+            self.d[prev] = (1 - self.alfa) * self.d[prev] + 0.5*self.alfa
+        else:
+            self.d[prev] *= (1 - self.alfa)
 
         
         
