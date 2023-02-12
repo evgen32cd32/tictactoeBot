@@ -4,6 +4,7 @@ from telepot.namedtuple import ReplyKeyboardMarkup, KeyboardButton
 import json
 from ttt_game import TTTGame
 import uuid
+import random
 import os
 
 app = Flask(__name__)
@@ -21,6 +22,13 @@ game = TTTGame()
 
 gamesDict = {}
 
+expl_rate = {
+    "Easy":0.25,
+    "Medium":0.5,
+    "Hard":0.75,
+    "Impossible":1.0
+}
+
 @app.route('/')
 def home():
    return render_template('index.html')
@@ -29,18 +37,30 @@ def home():
 def player_action():
     d = request.get_json()
     resp = {}
-
+    print(d)
     # New Game
     if 'start' in d or d['gameId'] not in gamesDict:
-        gid = str(uuid.uuid4())
-        gamesDict[gid] = game.startState()
-        resp['field'] = gamesDict[gid].s
+        if 'gameId' in d:
+            gid = d['gameId']
+        else:
+            gid = str(uuid.uuid4())
+        if d['player'] == 'Random':
+            if random.randint(0, 1) == 1:
+                d['player'] = 'First player'
+            else:
+                d['player'] = 'Second player'
+        if d['player'] == 'First player':
+            gamesDict[gid] = game.startState()
+            resp['field'] = gamesDict[gid].s
+        else:
+            ns, tr = game.bot.action(game.startState(),expl_rate=expl_rate[d['lvl']])
+            gamesDict[gid] = ns
+            resp['field'] = TTTGame.fromSpiral(ns.getTransformed(tr))
         resp['gameId'] = gid
         resp['status'] = 'player_move'
         return resp
     
     # Get new state
-    print(d['field'])
     ca, trans = game.checkCorrectMove(TTTGame.toSpiral(d['field']),gamesDict[d['gameId']])
 
     # Cheater
@@ -63,7 +83,7 @@ def player_action():
         return resp
 
     # Bot move
-    ns, tr = game.bot.action(ca,gamesDict[d['gameId']])
+    ns, tr = game.bot.action(ca,gamesDict[d['gameId']],expl_rate=expl_rate[d['lvl']])
     resp['field'] = TTTGame.fromSpiral(ns.getTransformed(trans + tr))
     resp['gameId'] = d['gameId']
     if ns.winner is None:

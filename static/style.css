@@ -9,24 +9,6 @@ body {
 .container {
     width: 100%;
 }
-#info {
-    margin-bottom: 10px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    font-size: 16px;
-}
-#info-score {
-    text-align: left;
-}
-#info-turn {
-    text-align: right;
-}
-#over {
-    display: none;
-    color: red;
-    font-size: 25px;
-    margin-bottom: 10px;
-}
 #field {
     width: 90vmin;
     height: 90vmin;
@@ -52,13 +34,68 @@ body {
     flex-direction: column;
 }
 
+
+/* Style The Dropdown Button */
+.dropbtn {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* The container <div> - needed to position the dropdown content */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Dropdown Content (Hidden by Default) */
+  .dropdown-content {
+    width: 100%;
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  /* Links inside the dropdown */
+  .dropdown-content button {
+    width: 100%;
+    background-color: #f9f9f9;
+    color: black;
+    padding: 12px 16px;
+    border: none;
+    cursor: pointer;
+    display: block;
+    text-align: left;
+  }
+  
+  /* Change color of dropdown links on hover */
+  .dropdown-content a:hover {background-color: #f1f1f1}
+  
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  /* Change the background color of the dropdown button when the dropdown content is shown */
+  .dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+  }
+  #buttons {
+      width: 50vmin;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(3, calc(33% - 0.75px));
+      grid-gap: 1px;
+  }
+
 @media only screen and (orientation: landscape) {
-    #info {
-        margin-bottom: 10px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        font-size: 20px;
-    }
     #field {
         width: 50vmin;
         height: 50vmin;
@@ -76,12 +113,6 @@ body {
     .container {
         width: 50vh;
         margin: auto;
-    }
-    #info {
-        margin-bottom: 10px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        font-size: 25px;
     }
     #field {
         width: 50vmin;

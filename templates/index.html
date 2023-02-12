@@ -8,19 +8,41 @@
     <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
-    <h1>
-        <div id="header">This is the Index page</div>
-    </h1>
-    <div id="field">
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
-        <div class="cell"> </div>
+    <div class="container">
+        <h1>
+            <div id="header">Your turn</div>
+        </h1>
+        <div id="field">
+            <div class="cell"> </div>
+            <div class="cell"> </div>
+            <div class="cell"> </div>
+            <div class="cell"> </div>
+            <div class="cell"> </div>
+            <div class="cell"> </div>
+            <div class="cell"> </div>
+            <div class="cell"> </div>
+            <div class="cell"> </div>
+        </div>
+        <div id="buttons">
+            <div class="dropdown">
+                <button class="dropbtn" id="lvl_button">Medium</button>
+                <div class="dropdown-content">
+                  <button class="lvl">Easy</button>
+                  <button class="lvl">Medium</button>
+                  <button class="lvl">Hard</button>
+                  <button class="lvl">Impossible</button>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn" id="player_button">First player</button>
+                <div class="dropdown-content">
+                  <button class="player">First player</button>
+                  <button class="player">Second player</button>
+                  <button class="player">Random</button>
+                </div>
+            </div>
+            <button class="dropbtn" id="new_game">New Game</button>
+        </div>
     </div>
 </body>
 </html>  
