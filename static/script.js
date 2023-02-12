@@ -1,5 +1,10 @@
 window.onload = function() {
     const cells = Array.from(document.getElementsByClassName("cell"));
+    const lvls = Array.from(document.getElementsByClassName("lvl"));
+    const plts = Array.from(document.getElementsByClassName("player"));
+    const lvl_button = document.getElementById("lvl_button");
+    const player_button = document.getElementById("player_button");
+    const new_game = document.getElementById("new_game");
     const header = document.getElementById("header");
     var field;
     var gameId;
@@ -17,7 +22,7 @@ window.onload = function() {
                 header.innerText = 'Waiting...';
                 break;
             case 'player_move':
-                header.innerText = 'Your move';
+                header.innerText = 'Your turn';
                 break;
             case 'cheater':
                 header.innerText = 'Cheater!';
@@ -47,7 +52,9 @@ window.onload = function() {
             res = {};
             res.gameId = gameId;
             res.field = field;
-            res.status = 'waiting'
+            res.status = 'waiting';
+            res.player = player_button.innerText;
+            res.lvl = lvl_button.innerText;
             reloadField(res);
             
 
@@ -74,8 +81,29 @@ window.onload = function() {
             const obj = JSON.parse(this.responseText);
             reloadField(obj);
         }
-        xhr.send('{"start":"OK"}');
+        res = {};
+        res.start = "OK";
+        res.player = player_button.innerText;
+        res.lvl = lvl_button.innerText;
+        xhr.send(JSON.stringify(res));
     }
+
+    new_game.addEventListener('click', e => {
+        gameover = false
+        start();
+    });
+
+    lvls.forEach((lvl, index) => {
+        lvl.addEventListener('click', e => {
+            lvl_button.innerText = lvl.innerText;
+        });
+    });
+
+    plts.forEach((plt, index) => {
+        plt.addEventListener('click', e => {
+            player_button.innerText = plt.innerText;
+        });
+    });
 
     cells.forEach((cell, index) => {
         cell.addEventListener('click', e => {
