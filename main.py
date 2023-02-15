@@ -6,14 +6,12 @@ from ttt_game import TTTGame
 import uuid
 import random
 import os
+from secrets import token_urlsafe
 
 app = Flask(__name__)
 
-with open('configs/env.json','r') as f:
-    cfg = json.load(f)
-
-token = cfg['TOKEN']
-secret = cfg['SECRET']
+token = f"{os.getenv('BOT_TOKEN')}"
+secret = token_urlsafe()
 domain = f"https://{os.getenv('DETA_SPACE_APP_HOSTNAME')}/"
 
 bot = None
