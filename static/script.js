@@ -20,9 +20,11 @@ window.onload = function() {
         {
             case 'waiting':
                 header.innerText = 'Waiting...';
+                gameover = true
                 break;
             case 'player_move':
                 header.innerText = 'Your turn';
+                gameover = false
                 break;
             case 'cheater':
                 header.innerText = 'Cheater!';
