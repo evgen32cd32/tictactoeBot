@@ -52,9 +52,9 @@ def stateCanonForm(state: str):
     for i in range(1,8):
         scores = [charScore(state[(x.corner + x.direction * i)%8]) for x in potential]
         inds = [i for i, x in enumerate(scores) if x == max(scores)]
+        potential = [potential[ind] for ind in inds]
         if len(inds) == 1:
             break
-        potential = [potential[ind] for ind in inds]
     bestTransform = potential[0]
     state8 = state[:-1]
     canonForm = state8[bestTransform.corner::bestTransform.direction] + state8[:bestTransform.corner:bestTransform.direction] + state[-1]
