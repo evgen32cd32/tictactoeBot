@@ -88,7 +88,7 @@ body {
     background-color: #3e8e41;
   }
   #buttons {
-      width: 50vmin;
+      width: 90vmin;
       margin: auto;
       display: grid;
       grid-template-columns: repeat(3, calc(33% - 0.75px));
@@ -124,5 +124,12 @@ body {
         grid-template-rows: repeat(3, calc(33% - 0.75px));
         grid-gap: 1px;
         font-size: 80px;
+    }
+    #buttons {
+        width: 50vmin;
+        margin: auto;
+        display: grid;
+        grid-template-columns: repeat(3, calc(33% - 0.75px));
+        grid-gap: 1px;
     }
 }
