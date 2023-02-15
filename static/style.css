@@ -95,17 +95,31 @@ body {
       grid-gap: 1px;
   }
 
+  @media only screen and (orientation: portrait){
+    .dropbtn{
+        height: 10vmin;
+        font-size: 32px;
+    }
+    .dropdown-content button {
+        font-size: 32px;
+    }
+  }
+
 @media only screen and (orientation: landscape) {
     #field {
         width: 50vmin;
         height: 50vmin;
-        margin: auto;
-        font-size: 0px;
-        display: grid;
-        grid-template-columns: repeat(3, calc(33% - 0.75px));
-        grid-template-rows: repeat(3, calc(33% - 0.75px));
-        grid-gap: 1px;
         font-size: 35px;
+    }
+    .dropbtn{
+        padding: 10px;
+        height: 6vmin;
+        font-size: 10px;
+    }
+    .dropdown-content button {
+        padding: 10px;
+        height: 6vmin;
+        font-size: 10px;
     }
 }
 
@@ -117,19 +131,9 @@ body {
     #field {
         width: 50vmin;
         height: 50vmin;
-        margin: auto;
-        font-size: 0px;
-        display: grid;
-        grid-template-columns: repeat(3, calc(33% - 0.75px));
-        grid-template-rows: repeat(3, calc(33% - 0.75px));
-        grid-gap: 1px;
         font-size: 80px;
     }
     #buttons {
         width: 50vmin;
-        margin: auto;
-        display: grid;
-        grid-template-columns: repeat(3, calc(33% - 0.75px));
-        grid-gap: 1px;
     }
 }
