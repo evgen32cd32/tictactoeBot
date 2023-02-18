@@ -14,12 +14,19 @@ window.onload = function() {
         field = obj.field;
         gameId = obj.gameId;
         cells.forEach((cell, index) => {
-            cell.innerText = obj.field[index]
+			cell.classList.remove("red-cell");
+			cell.classList.remove("blue-cell");
+            cell.innerText = obj.field[index];
+			if (cell.innerText == 'X') {
+				cell.classList.add("blue-cell");
+			} else {
+				cell.classList.add("red-cell");
+			}
         });
         switch(obj.status)
         {
             case 'waiting':
-                header.innerText = 'Waiting...';
+                header.innerText = 'Wait...';
                 break;
             case 'player_move':
                 header.innerText = 'Your turn';
@@ -101,7 +108,17 @@ window.onload = function() {
 
     plts.forEach((plt, index) => {
         plt.addEventListener('click', e => {
+			player_button.classList.remove("red-button");
+			player_button.classList.remove("blue-button");
+			player_button.classList.remove("yellow-button");
             player_button.innerText = plt.innerText;
+			if (plt.innerText == 'X-man') {
+				player_button.classList.add("blue-button");
+			} else if (plt.innerText == 'O-man') {
+				player_button.classList.add("red-button");
+			} else {
+				player_button.classList.add("yellow-button");
+			}
         });
     });
 
