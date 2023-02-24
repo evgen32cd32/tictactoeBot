@@ -35,7 +35,7 @@ def home():
 def player_action():
     d = request.get_json()
     resp = {}
-    print(d)
+    print(f'IN: {d}')
     # New Game
     if 'start' in d or d['gameId'] not in gamesDict:
         if 'gameId' in d:
@@ -56,6 +56,7 @@ def player_action():
             resp['field'] = TTTGame.fromSpiral(ns.getTransformed(tr))
         resp['gameId'] = gid
         resp['status'] = 'player_move'
+        print(f'OUT: {resp}')
         return resp
     
     # Get new state
@@ -66,6 +67,7 @@ def player_action():
         resp['field'] = gamesDict[d['gameId']].s
         resp['gameId'] = d['gameId']
         resp['status'] = 'cheater'
+        print(f'OUT: {resp}')
         return resp
     
     # Check GameOver
@@ -78,6 +80,7 @@ def player_action():
             resp['status'] = 'player_won'
         game.bot.get_defeat(ca.winner,gamesDict[d['gameId']])
         del gamesDict[d['gameId']]
+        print(f'OUT: {resp}')
         return resp
 
     # Bot move
@@ -93,6 +96,7 @@ def player_action():
         else:
             resp['status'] = 'bot_won'
         del gamesDict[d['gameId']]
+        print(f'OUT: {resp}')
     return resp
 
 @app.route('/{}'.format(secret), methods=["POST"])
