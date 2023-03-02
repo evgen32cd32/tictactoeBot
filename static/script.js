@@ -6,6 +6,11 @@ window.onload = function() {
     const player_button = document.getElementById("player_button");
     const new_game = document.getElementById("new_game");
     const header = document.getElementById("header");
+	const playerBtnColoring = {
+		'First player': "blue-button",
+		'Second player': "red-button",
+		'Random': "yellow-button"
+	};
     var field;
     var gameId;
     var gameover = false;
@@ -60,7 +65,7 @@ window.onload = function() {
             res.gameId = gameId;
             res.field = field;
             res.status = 'waiting';
-            res.player = player_button.innerText;
+            res.player = player_button.value;
             res.lvl = lvl_button.innerText;
             reloadField(res);
             
@@ -90,7 +95,7 @@ window.onload = function() {
         }
         res = {};
         res.start = "OK";
-        res.player = player_button.innerText;
+        res.player = player_button.value;
         res.lvl = lvl_button.innerText;
         xhr.send(JSON.stringify(res));
     }
@@ -108,17 +113,13 @@ window.onload = function() {
 
     plts.forEach((plt, index) => {
         plt.addEventListener('click', e => {
-			player_button.classList.remove("red-button");
-			player_button.classList.remove("blue-button");
-			player_button.classList.remove("yellow-button");
-            player_button.innerText = plt.innerText;
-			if (plt.innerText == 'X-man') {
-				player_button.classList.add("blue-button");
-			} else if (plt.innerText == 'O-man') {
-				player_button.classList.add("red-button");
-			} else {
-				player_button.classList.add("yellow-button");
+			for (var key in playerBtnColoring) {
+				player_button.classList.remove(playerBtnColoring[key]);
 			}
+			
+            player_button.innerText = plt.innerText;
+			player_button.value = plt.value;
+			player_button.classList.add(playerBtnColoring[plt.value]);
         });
     });
 
